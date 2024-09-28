@@ -591,3 +591,20 @@ class EFIUtils(GhidraUtils):
                 print('createfunction', newName, func.getEntryPoint())
                 func.setName(newName, SourceType.USER_DEFINED)
                 artifacts().add_function(func.getEntryPoint(), newName)
+
+    def labelMapFunctions(self, mapfile):
+        rva = False
+        with open(mapfile, 'r') as mf:
+            for line in mf:
+                if 'Rva+Base' in line:
+                    rva = True
+                elif rva is True and '0002:' in line:
+                    rva = False
+                elif rva is True and '0001:' in line:
+                    funcname = line[20:line.find(' ', 21)].strip()
+                    offset = line[20:].find(' f')
+                    if offset > 0:
+                        addr = self.toAddr(line[4+offset:20+offset])
+                        func = self.getFunctionAt(addr)
+                        if func is not None:
+                            func.setName(funcname, SourceType.USER_DEFINED)

@@ -18,7 +18,8 @@ from collections import namedtuple
 import yaml
 
 
-surveyorOptions = namedtuple("surveyorOptions", ['ghidraPath', 'ghidraProject', 'scriptPath', 'guidDBPath', 'gdtPath64', 'gdtPath32', 'projectName', 'efiPath'])
+surveyorOptions = namedtuple("surveyorOptions", ['ghidraPath', 'ghidraProject', 'scriptPath', 'guidDBPath', 'gdtPath64', 'gdtPath32', 'projectName', 'efiPath', 'hashFile'])
+surveyorMapOptions = namedtuple("surveyorMapOptions", ['ghidraPath', 'ghidraProject', 'scriptPath', 'projectName', 'efiPath'])
 
 
 def loadOptions(filename='options.yaml') -> dict:
@@ -43,5 +44,16 @@ def getGhidraOptions(options: dict) -> surveyorOptions:
     gdtpath32 = options['Analysis']['GDT32']
     projectname = options['Analysis']['Projectname']
     efipath = options['Analysis']['EFIPath']
-    retOptions = surveyorOptions(ghidrapath, ghidraprojects, scriptpath, guiddbpath, gdtpath64, gdtpath32, projectname, efipath)
+    hashfile = options['Analysis']['HashFile']
+    retOptions = surveyorOptions(ghidrapath, ghidraprojects, scriptpath, guiddbpath, gdtpath64, gdtpath32, projectname, efipath, hashfile)
+    return retOptions
+
+
+def getGhidraMapOptions(options: dict) -> surveyorMapOptions:
+    ghidrapath = options['Analysis']['Ghidrapath']
+    ghidraprojects = options['Analysis']['Projectpath']
+    scriptpath = options['Analysis']['Scriptpath']
+    projectname = options['Analysis']['Projectname']
+    efipath = options['Analysis']['EFIPath']
+    retOptions = surveyorMapOptions(ghidrapath, ghidraprojects, scriptpath, projectname, efipath)
     return retOptions

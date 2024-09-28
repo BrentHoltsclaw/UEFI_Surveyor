@@ -1,0 +1,6 @@
+Analysis:
+  Ghidrapath: 'Path to Ghidra'
+  Projectpath: 'Path to Project Output'
+  Projectname: 'Name of Project'
+  Scriptpath: 'Path to UEFISurveyor/UEFISurveyor'
+  EFIPath: 'Path to decompressed binaries (efi/te files)'
